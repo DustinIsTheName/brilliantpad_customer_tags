@@ -8,6 +8,11 @@ Bundler.require(*Rails.groups)
 
 module BrilliantpadCustomerTags
   class Application < Rails::Application
+    require 'csv'
+    require 'functions/string'
+    require 'functions/colorize'
+    require 'functions/manage_tags'
+    require 'functions/import_from_spreadsheet'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -22,5 +27,7 @@ module BrilliantpadCustomerTags
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    ShopifyAPI::Base.site = "https://#{ENV["API_KEY"]}:#{ENV["PASSWORD"]}@#{ENV["SHOPIFY_URL"]}/admin"
   end
 end
