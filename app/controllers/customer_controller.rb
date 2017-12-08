@@ -44,7 +44,7 @@ class CustomerController < ApplicationController
 		if customer
 			render json: customer
 		else
-			render(:status => 404)
+			render json: {error: "No such user; check the submitted email address"}, status: 404
 		end
 	end
 
