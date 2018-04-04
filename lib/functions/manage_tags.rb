@@ -36,6 +36,9 @@ module ManageTags
 			shopify_customer.tags = shopify_customer.tags.add_tag('referral:'+customer.referral)
 		end
 
+		puts Colorize.orange(old_tags)
+		puts Colorize.magenta(shopify_customer.tags)
+
 		if old_tags == shopify_customer.tags
 			puts Colorize.cyan('tags are the same');
 		else
