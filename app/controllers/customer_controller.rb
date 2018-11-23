@@ -48,6 +48,14 @@ class CustomerController < ApplicationController
 		end
 	end
 
+  def get_order
+    puts Colorize.magenta(params)
+
+    order = ShopifyAPI::Order.find(:all, params: {name: params["order_number"], status: 'any'})&.first
+
+    render json: order
+  end
+
 	private
 
 		def set_headers
