@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post '/save-customer' => 'customer#save'
   get '/get-customer' => 'customer#get'
   post '/get-order' => 'customer#get_order'
+  post '/earn-points' => 'customer#earn_points'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

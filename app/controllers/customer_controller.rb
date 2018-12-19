@@ -56,11 +56,78 @@ class CustomerController < ApplicationController
     render json: order
   end
 
+  def earn_points
+    puts Colorize.magenta(params)
+
+    customer = ShopifyAPI::Customer.search(query: "email:#{params["email"]}").first
+
+    if customer
+      unless customer.tags.include? "filled_in_dog_profile"
+
+        activity_body = {
+          "name" => "dog_profile",
+          "customer_id" => customer.id.to_s,
+          "customer_email" => customer.email
+        }
+        uri = URI.parse("https://api.loyaltylion.com/v2/activities")
+
+        response = http_request(uri, activity_body, 'post')
+
+        customer.tags = customer.tags.add_tag "filled_in_dog_profile"
+
+        customer.save
+
+      end
+    end
+
+    if response
+      render json: response
+    else
+      render json: nil
+    end
+  end
+
 	private
 
 		def set_headers
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Request-Method'] = '*'
+    end
+
+    def http_request(url, body = nil, type = nil)
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+      if type == "delete"
+        request = Net::HTTP::Delete.new(url)
+      elsif type == "post"
+        request = Net::HTTP::Post.new(url)
+      elsif type == "put"
+        request = Net::HTTP::Put.new(url)
+      elsif type == "get"
+        request = Net::HTTP::Get.new(url)
+      else
+        request = Net::HTTP::Get.new(url)
+      end
+
+      request.basic_auth(ENV["LOYALTYLION_TOKEN"], ENV["LOYALTYLION_SECRET"])
+      request.content_type = "application/json"
+      req_options = {
+        use_ssl: url.scheme == "https",
+      }
+      # request["content-type"] = 'application/json'
+
+      if body
+        request.body = body.to_json
+      end
+
+      response = http.request(request)
+
+      puts Colorize.yellow(request.body)
+      puts Colorize.yellow(response.code)
+
+      response.read_body
     end
 
 end
