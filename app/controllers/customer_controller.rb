@@ -80,10 +80,12 @@ class CustomerController < ApplicationController
       end
     end
 
+    puts response
+
     if response
-      render json: response
+      render json: {success: true}
     else
-      render json: nil
+      render json: {success: false}
     end
   end
 
