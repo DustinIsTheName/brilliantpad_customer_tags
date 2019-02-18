@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get '/get-customer' => 'customer#get'
   post '/get-order' => 'customer#get_order'
   post '/earn-points' => 'customer#earn_points'
-
+  post '/save-order' => 'customer#save_order'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

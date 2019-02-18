@@ -36,6 +36,64 @@ class CustomerController < ApplicationController
 		end
 	end
 
+  def save_order
+    puts Colorize.magenta(params)
+    puts Colorize.magenta(params["line_items"].first["properties"])
+
+    customer = Customer.find_by_email(params["email"])
+
+    unless customer
+      customer = Customer.new
+      customer.email = params["email"]
+    end
+
+    for item in params["line_items"]
+      properties = params["line_items"].first["properties"]
+
+      if properties
+        for property in properties
+          case property["name"]
+          when 'option-weight'
+            puts Colorize.cyan('option-weight')
+            if property["value"] == 'Over 25 lbs'
+              customer.weight = 'Over25'
+              puts Colorize.green('Over25')
+            else
+              customer.weight = 'Under25'
+              puts Colorize.green('Over25')
+            end
+          when 'option-use-pads'
+            puts Colorize.cyan('option-use-pads')
+            if property["value"] == 'Yes'
+              customer.pads = 'UsePads'
+              puts Colorize.green('UsePads')
+            else
+              customer.pads = 'NotUsePads'
+              puts Colorize.green('NotUsePads')
+            end
+          when 'option-puppy'
+            puts Colorize.cyan('option-puppy')
+            if property["value"] == 'Yes'
+              customer.puppy = 'YoungPuppy'
+              puts Colorize.green('YoungPuppy')
+            else
+              customer.puppy = 'NotPuppy'
+              puts Colorize.green('NotPuppy')
+            end
+          end
+        end
+      end
+    end
+
+    if customer.save
+      ManageTags.setTags(customer)
+    else
+      puts customer.errors
+    end
+
+    render json: nil
+  end
+
 	def get
 		puts Colorize.magenta(params)
 

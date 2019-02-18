@@ -9,6 +9,8 @@ module ManageTags
 			shopify_customer.tags = '';
 		end
 
+    puts Colorize.bright(shopify_customer.id)
+
 		old_tags = shopify_customer.tags
 
 		if customer.weight
