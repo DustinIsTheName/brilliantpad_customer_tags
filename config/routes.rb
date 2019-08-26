@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   post '/earn-points' => 'customer#earn_points'
   post '/save-order' => 'customer#save_order'
 
+  get '/get-subscription' => 'subscription#current'
+  post '/upgrade-subscription' => 'subscription#upgrade'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', group: [:development, :test]
+gem 'sqlite3', '~> 1.3.13', group: [:development, :test]
 
 group :production do
   gem 'pg'
@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'shopify_app'
-gem 'shopify_cli', group: :development
+gem 'shopify_api_console'
 
 gem 'figaro'
 # Use ActiveModel has_secure_password
