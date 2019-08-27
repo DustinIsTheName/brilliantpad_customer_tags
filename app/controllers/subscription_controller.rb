@@ -42,6 +42,12 @@ class SubscriptionController < ApplicationController
     render json: recharge_customer
   end
 
+  def test
+    puts "TESTING"
+
+    render json: {testing: true}
+  end
+
   private
 
     def set_headers
