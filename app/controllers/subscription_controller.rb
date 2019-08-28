@@ -10,10 +10,14 @@ class SubscriptionController < ApplicationController
 
     puts recharge_customer
 
-    sub_url = URI("https://api.rechargeapps.com/subscriptions/?customer_id=#{recharge_customer["customers"]&.first["id"]}")
-    recharge_subscription = recharge_http_request(sub_url)
+    if recharge_customer["customers"]
+      sub_url = URI("https://api.rechargeapps.com/subscriptions/?customer_id=#{recharge_customer["customers"].first["id"]}")
+      recharge_subscription = recharge_http_request(sub_url)
+      render json: recharge_subscription.first
+    else
+      render json: recharge_customer
+    end
 
-    render json: recharge_subscription.first
   end
 
   def upgrade
