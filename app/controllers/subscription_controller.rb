@@ -8,7 +8,9 @@ class SubscriptionController < ApplicationController
     url = URI("https://api.rechargeapps.com/customers/?hash=#{params['sub_id']}")
     recharge_customer = recharge_http_request url
 
-    sub_url = URI("https://api.rechargeapps.com/subscriptions/?customer_id=#{recharge_customer["customers"].first["id"]}")
+    puts recharge_customer
+
+    sub_url = URI("https://api.rechargeapps.com/subscriptions/?customer_id=#{recharge_customer["customers"]&.first["id"]}")
     recharge_subscription = recharge_http_request(sub_url)
 
     render json: recharge_subscription.first
