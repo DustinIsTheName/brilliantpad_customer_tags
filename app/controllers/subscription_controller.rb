@@ -34,7 +34,7 @@ class SubscriptionController < ApplicationController
 
     new_customer_params = {
       address_id: new_subscription["address_id"],
-      next_charge_scheduled_at: new_subscription["next_charge_scheduled_at"],
+      next_charge_scheduled_at: new_subscription["next_charge_scheduled_at"].to_date.strftime('%Y-%m-%dT%H:%M:%S'),
       shopify_variant_id: new_subscription["variant_id"],
       quantity: 1,
       order_interval_unit: new_subscription["order_interval_unit"],
