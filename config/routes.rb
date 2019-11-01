@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   post '/get-order' => 'customer#get_order'
   post '/earn-points' => 'customer#earn_points'
   post '/save-order' => 'customer#save_order'
+  post '/pre-order' => 'pre_order#tag_order'
+
 
   get '/get-subscription' => 'subscription#current'
   post '/upgrade-subscription' => 'subscription#upgrade'
