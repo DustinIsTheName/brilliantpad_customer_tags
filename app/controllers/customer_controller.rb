@@ -147,6 +147,14 @@ class CustomerController < ApplicationController
     end
   end
 
+  def earn_points_typeform
+    
+  end
+
+  def refresh_token
+    render json: params
+  end
+
 	private
 
 		def set_headers

@@ -4,13 +4,41 @@ Rails.application.routes.draw do
   get '/get-customer' => 'customer#get'
   post '/get-order' => 'customer#get_order'
   post '/earn-points' => 'customer#earn_points'
+  post '/earn-points-typeform' => 'customer#earn_points_typeform'
   post '/save-order' => 'customer#save_order'
   post '/pre-order' => 'pre_order#tag_order'
+  post '/get-refresh-token' => 'customer#refresh_token'
 
 
   get '/get-subscription' => 'subscription#current'
   post '/upgrade-subscription' => 'subscription#upgrade'
   get '/test' => 'subscription#test'
+
+  controller :recharge do
+    get '/recharge-customer' => :get_customer
+    post '/recharge-update-customer' => :update_customer
+
+    get '/recharge-address' => :get_address
+    post '/recharge-update-address' => :update_address
+
+    get '/recharge-customer-subscriptions' => :get_subscriptions
+    post '/recharge-subscription-update' => :update_subscription
+    post '/recharge-subscription-delay' => :delay_subscription
+    post '/recharge-subscription-cancel' => :cancel_subscription
+
+    get '/recharge-orders' => :get_orders
+
+    get '/recharge-payment-source' => :get_payment_source
+    post '/recharge-update-billing' => :update_billing
+
+    post '/recharge-add-discount' => :add_discount
+    post '/recharge-remove-discount' => :remove_discount
+
+    get '/recharge-charge' => :get_charges
+    post '/recharge-skip-charge' => :skip_charge
+    post '/recharge-unskip-charge' => :unskip_charge
+
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
