@@ -188,34 +188,40 @@ class RechargeController < ApplicationController
 
     customer = get_customer_function params["shopify_customer_id"]
 
-    expiration = params["exp-date"].split('/')
-    token = Stripe::Token.create({
-      card: {
-        number: params["cardnumber"],
-        exp_month: expiration[0],
-        exp_year: expiration[1],
-        cvc: params["cvc"]
+    begin
+      expiration = params["exp-date"].split('/')
+      token = Stripe::Token.create({
+        card: {
+          number: params["cardnumber"],
+          exp_month: expiration[0],
+          exp_year: expiration[1],
+          cvc: params["cvc"]
+        }
+      })
+      if customer["stripe_customer_token"]
+        stripe_customer = Stripe::Customer.update(
+          customer["stripe_customer_token"],
+          {source: token.id}
+        )
+      else
+        stripe_customer = Stripe::Customer.create(
+          :description => "Customer: #{params["name"]}",
+          :source => token.id
+        )
+      end
+
+      url = URI("https://api.rechargeapps.com/customers/#{customer["id"]}")
+      body = {
+        stripe_customer_token: stripe_customer["id"]
       }
-    })
-    if customer["stripe_customer_token"]
-      stripe_customer = Stripe::Customer.update(
-        customer["stripe_customer_token"],
-        {source: token.id}
-      )
-    else
-      stripe_customer = Stripe::Customer.create(
-        :description => "Customer: #{params["name"]}",
-        :source => token.id
-      )
+      customer = recharge_http_request(url, body, 'put')
+
+      render json: customer
+    rescue => e
+      render json: {
+        error: e
+      }
     end
-
-    url = URI("https://api.rechargeapps.com/customers/#{customer["id"]}")
-    body = {
-      stripe_customer_token: stripe_customer["id"]
-    }
-    customer = recharge_http_request(url, body, 'put')
-
-    render json: customer
   end
 
   def add_discount
