@@ -125,7 +125,8 @@ class CustomerController < ApplicationController
         activity_body = {
           "name" => "dog_profile",
           "customer_id" => customer.id.to_s,
-          "customer_email" => customer.email
+          "customer_email" => customer.email,
+          "guest" => false
         }
         uri = URI.parse("https://api.loyaltylion.com/v2/activities")
 
