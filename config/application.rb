@@ -32,6 +32,6 @@ module BrilliantpadCustomerTags
     config.active_record.raise_in_transactional_callbacks = true
 
     ShopifyAPI::Base.site = "https://#{ENV["API_KEY"]}:#{ENV["PASSWORD"]}@#{ENV["SHOPIFY_URL"]}/admin"
-    ShopifyAPI::Base.api_version = '2020-04'
+    ShopifyAPI::Base.api_version = '2021-04'
   end
 end
